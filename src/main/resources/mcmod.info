@@ -1,0 +1,16 @@
+[
+{
+  "modid": "negativemapfixer",
+  "name": "Negative Map Fixer",
+  "description": "Makes negative maps work on 1.12.2.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "bepis.co",
+  "updateUrl": "",
+  "authorList": ["Haxalicious"],
+  "credits": "Haxalicious",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

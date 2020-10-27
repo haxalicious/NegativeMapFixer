@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.haxalicious.negativemapfixer.mixins",
+  "refmap": "mixins.negativemapfixer.refmap.json",
+  "mixins": [
+    "MixinItemStack"
+  ]
+}
