@@ -27,10 +27,4 @@ public class MixinItemStack {
     public int ItemStackMax(int i, int i1) {
         return i1;
     }
-    @Inject(method = "setItemDamage", at = @At("HEAD"), cancellable = true)
-    public void setItemDamagePRE (int meta, CallbackInfo cb) {
-        this.itemDamage = meta;
-        cb.cancel();
-    }
-
 }
