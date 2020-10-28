@@ -18,13 +18,18 @@ public class MixinItemStack {
     @Shadow
     private int itemDamage;
 
-    @Inject(method = "<init>(Lnet/minecraft/item/Item;II)V", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "<init>(Lnet/minecraft/item/Item;II)V", at = @At("RETURN"))
     public void ItemStackPOST (Item itemIn, int amount, int meta, CallbackInfo cb) {
         this.itemDamage = meta;
     }
-    @Inject(method = "<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At("RETURN"))
     public void ItemStackPOST (NBTTagCompound compound, CallbackInfo cb) {
         this.itemDamage = compound.getShort("Damage");
+    }
+    @Inject(method = "setItemDamage", at = @At("HEAD"), cancellable = true)
+    public void setItemDamagePOST (int meta, CallbackInfo cb) {
+        this.itemDamage = meta;
+        cb.cancel();
     }
 
 }
