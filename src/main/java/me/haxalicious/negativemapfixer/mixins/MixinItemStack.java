@@ -1,12 +1,13 @@
 package me.haxalicious.negativemapfixer.mixins;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
@@ -18,16 +19,16 @@ public class MixinItemStack {
     @Shadow
     private int itemDamage;
 
-    @Inject(method = "<init>(Lnet/minecraft/item/Item;II)V", at = @At("RETURN"))
-    public void ItemStackPOST (Item itemIn, int amount, int meta, CallbackInfo cb) {
-        this.itemDamage = meta;
+    @Redirect(method = "<init>(Lnet/minecraft/item/Item;IILnet/minecraft/nbt/NBTTagCompound;)V", at = @At(value = "FIELD", target = "Lnet/minecraft/item/ItemStack;itemDamage:I", opcode = Opcodes.GETFIELD))
+    public int ItemStackItemDamage(ItemStack itemStack) {
+        return 0;
     }
-    @Inject(method = "<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At("RETURN"))
-    public void ItemStackPOST (NBTTagCompound compound, CallbackInfo cb) {
-        this.itemDamage = compound.getShort("Damage");
+    @ModifyArg(method = "<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(II)I"), index = 0)
+    public int ItemStackMax(int i, int i1) {
+        return i1;
     }
     @Inject(method = "setItemDamage", at = @At("HEAD"), cancellable = true)
-    public void setItemDamagePOST (int meta, CallbackInfo cb) {
+    public void setItemDamagePRE (int meta, CallbackInfo cb) {
         this.itemDamage = meta;
         cb.cancel();
     }
