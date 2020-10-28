@@ -21,12 +21,10 @@ public class MixinItemStack {
     @Inject(method = "<init>(Lnet/minecraft/item/Item;II)V", at = @At("RETURN"), cancellable = true)
     public void ItemStackPOST (Item itemIn, int amount, int meta, CallbackInfo cb) {
         this.itemDamage = meta;
-        cb.cancel();
     }
     @Inject(method = "<init>(Lnet/minecraft/nbt/NBTTagCompound;)V", at = @At("RETURN"), cancellable = true)
     public void ItemStackPOST (NBTTagCompound compound, CallbackInfo cb) {
         this.itemDamage = compound.getShort("Damage");
-        cb.cancel();
     }
 
 }
